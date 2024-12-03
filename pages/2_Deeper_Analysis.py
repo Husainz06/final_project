@@ -9,14 +9,15 @@ import os
 import streamlit as st
 
 
-# Download necessary NLTK resources
+# Downloading necessary NLTK resources if they are not already downloaded
 nltk.download('punkt', quiet=True)
 nltk.download('stopwords', quiet=True)
 
-# Creating csv files to enhance performance
+# Creating csv files to save tobens and n-grams to enhance the performance
 BIGRAM_CSV_FILE = "keyword_bigrams.csv"
 TRIGRAM_CSV_FILE = "keyword_trigrams.csv"
 TOKENS_FILE = "tokens.csv"
+
 # Reading the actual dataset
 data = pd.read_csv('pages/us_jobs_data_knn_imputed_v2.csv')
 
@@ -37,7 +38,7 @@ def save_ngrams_to_csv(data, ngram_type='bigram'):
     elif ngram_type == 'trigram':
         data.to_csv(TRIGRAM_CSV_FILE, index=False)
 
-# Loading tokens from tokens file
+# Loading tokens from tokens file if the token file exists
 def load_tokens():
     if os.path.exists(TOKENS_FILE):
         return pd.read_csv(TOKENS_FILE)['tokens'].tolist()
@@ -52,17 +53,16 @@ def save_tokens(tokens):
 # Generate tokens  - this function is used when token file does not exist
 def generate_tokens(data):
     data_clean = data[data['job_summary'].notna()]
-    # Combine all non-NaN job summaries into one large string
+    # Combine all job summaries into one large string
     all_job_summaries = ' '.join(data_clean['job_summary'])
-    # Tokenize the text (split into words)
+    # Tokenize the text
     tokens = nltk.word_tokenize(all_job_summaries)
-
-    # Remove stop words (common words that don't contribute to meaningful analysis)
+    # Remove stop words
     stop_words = set(stopwords.words('english'))
     filtered_tokens = [word.lower() for word in tokens if word.isalpha() and word.lower() not in stop_words]
-
     # Save the tokens in the file
     save_tokens(filtered_tokens)
+    # Return the tokens to be used in the app if needed
     return filtered_tokens
 
 # Plotting the n-grams
@@ -75,30 +75,31 @@ def plot_keyword_ngrams(data, keywords, ngram_type):
             tokens = generate_tokens(data)
 
     # Choose the appropriate n-gram generator based on user input
-    if ngram_type == 'bigram':
-        ngram_function = bigrams  # Generate bigrams
-    elif ngram_type == 'trigram':
-        ngram_function = trigrams  # Generate trigrams
+    if ngram_type == 'Bigrams':
+        ngram_function = bigrams
+    elif ngram_type == 'Trigrams':
+        ngram_function = trigrams
+
+    # In case the user tries typing into the menu
     else:
         st.error("Invalid ngram type selected")
         return
 
     # Generate n-grams from the filtered tokens
     ngram_list = list(ngram_function(tokens))
-
     # Load existing n-grams from CSV
     existing_ngrams = load_existing_ngrams(ngram_type)
 
-    # Create a list to hold the data for plotting
+    # Create a list to hold the data for the plot
     plot_data = []
 
     # Create a color palette with a unique color for each keyword
-    colors = sns.color_palette("Set2", len(keywords))  # Generate distinct colors
+    colors = sns.color_palette("Set2", len(keywords))
 
-    # Track if any keyword is missing n-grams
+    # Save keywords that do not have any n-grams
     missing_keywords = []
 
-    # Use a spinner while processing n-grams
+    
     with st.spinner(f'Creating {ngram_type}s plot, please wait...'):
         # Loop through each keyword and filter n-grams containing the keyword
         for idx, keyword in enumerate(keywords):
@@ -106,83 +107,78 @@ def plot_keyword_ngrams(data, keywords, ngram_type):
             keyword_ngrams = existing_ngrams[existing_ngrams['keyword'] == keyword]
 
             if keyword_ngrams.empty:
-                # Filter n-grams to only include those that contain the keyword
                 keyword_ngrams = [ngram for ngram in ngram_list if keyword in ngram]
                 
-                # Calculate the frequency distribution of the keyword n-grams
+                # Calculate the frequency of n-grams
                 ngram_freq = FreqDist(keyword_ngrams)
 
-                # If no n-grams were found with the keyword, skip to next keyword
+                # When no n-grams are found, save into missing list and move to the next iteration
                 if not ngram_freq:
                     missing_keywords.append(keyword)
                     continue
 
-                # Get the most common n-grams involving the keyword
+                # Get the 5 most common n-grams
                 most_common_ngrams = ngram_freq.most_common(5)
 
-                # Append the new n-grams to the plot_data list with keyword info
+                # Add n-grams to the plot
                 for ngram, count in most_common_ngrams:
                     plot_data.append({
-                        'ngram': ' '.join(ngram),  # Make sure 'ngram' column is added correctly
+                        'ngram': ' '.join(ngram),
                         'count': count,
                         'keyword': keyword,
                     })
 
-                # Save the new n-grams to the CSV file
+                # Add the new n-grams to the csv file
                 new_data = pd.DataFrame(plot_data[-5:])
                 existing_ngrams = pd.concat([existing_ngrams, new_data], ignore_index=True)
                 save_ngrams_to_csv(existing_ngrams, ngram_type)
 
             else:
-                # If n-grams exist in the CSV, add them to the plot_data list
+                # Add n-grams form csv file to the plot
                 plot_data.extend(keyword_ngrams.to_dict('records'))
 
-        # If no n-grams were found for any keyword
+        # If no n-grams were found for all provided keywords
         if not plot_data:
             st.write("No n-grams found with the provided keywords.")
             return
 
-        # Convert the plot_data list into a DataFrame for easier plotting
+        # Making a dataframe for easier plotting
         plot_df = pd.DataFrame(plot_data)
 
-        # Ensure 'ngram' column is present
+        # testing to see if no n-grams are found
         if 'ngram' not in plot_df.columns:
             st.error("Missing 'ngram' column in plot data.")
             return
 
-        # Calculate the dynamic height of the plot based on the number of keywords and n-grams
+        # Dynamically update the plot's height based on the number of bars
         num_keywords = len(keywords)
         num_ngrams = len(plot_data)
-        height = num_keywords + num_ngrams * 0.5  # Adjust height multiplier as needed
+        height = num_keywords + num_ngrams * 0.5
 
-        # Plot the combined n-grams in one plot
         plt.figure(figsize=(12, height))
 
-        # Loop through each keyword and plot its n-grams with the corresponding color
+        # Applying colors to n-grams
         for idx, keyword in enumerate(keywords):
             keyword_data = plot_df[plot_df['keyword'] == keyword]
-            keyword_color = colors[idx]  # Color corresponding to the keyword
-
-            # Plot the n-grams for this keyword
+            keyword_color = colors[idx]
             bars = plt.barh(keyword_data['ngram'], keyword_data['count'], color=keyword_color, label=keyword)
-
-            # Annotate the bars with frequency numbers
+            # Adding numbers on the smaller bars 
             for bar in bars:
-                if bar.get_width() > 0:
+                if bar.get_width()  < 25:
                     plt.text(bar.get_width() + 0.05, bar.get_y() + bar.get_height() / 2,
                              f'{int(bar.get_width())}', va='center', ha='left', fontsize=10, color='black')
 
         plt.xlabel('Frequency')
         plt.ylabel(f'{ngram_type.capitalize()}')
         plt.title(f'Top 5 {ngram_type.capitalize()}s for Each Keyword')
-        plt.gca().invert_yaxis()  # Invert the y-axis to have the most frequent n-gram at the top
+        # Place the higher numbers in every group on top
+        plt.gca().invert_yaxis() 
         plt.legend(title="Keywords")
 
-        # Display message if some keywords had no n-grams
+        # Show keywors in the missing list
         if missing_keywords:
-            st.write(f"Keywords not found: {', '.join(missing_keywords)}")
-
-        # Display the plot
+            st.write(f"Keywords not found: {', '.join(missing_keywords)}\n \
+                     Plotting the rest of the keywords.")
         st.pyplot(plt)
 
 # Streamlit user interface
@@ -193,17 +189,16 @@ st.write('This page uses NLTK (Natural Language Toolkit) which is is a suite of 
          semantic reasoning functionalities. The purpose of using it here is to extract and plot \
          n-grams (an n-long word sequence) which help give more insight about the data. This helps \
          us understand the relationships between terms and the context in which these terms appear.')
-# Input: User can input keywords as a space-separated string
+# Getting user input for keywords
 user_input = st.text_input("Enter keywords (space-separated). Hit enter when done!")
 
-# Ngram type selection: 'bigram' or 'trigram'
-ngram_type = st.selectbox("Select N-gram type", ['bigram', 'trigram'])
+# Dropdown menu to select between n-grams
+ngram_type = st.selectbox("Select N-gram type", ['Bigrams', 'Trigrams'])
 
 if user_input:
-    # Split the user input into a list of keywords
+    # Splitting  user input into keywords
     keywords = user_input.strip().split()
-
-    # Use a spinner while processing the plot
     with st.spinner(f'Loading/creating {ngram_type}s.... Please wait'):
         plot_keyword_ngrams(data, keywords, ngram_type)
-    # maybe add more text here
+
+    # maybe add more text here as an analysis part?

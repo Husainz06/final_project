@@ -1,5 +1,5 @@
 import streamlit as st
-
+# Proof read the paragraphs
 st.title("Data Preparation")
 
 st.write("The dataset began as raw scraped data with lots of un-needed information.\

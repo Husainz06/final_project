@@ -1,6 +1,6 @@
 
 import streamlit as st
-
+# Proof read the paragraphs
 st.title('About This Application')
 st.subheader('Purpose')
 st.write('This application was implemented by Hussain A. Aljafer as a part of the Foundations of \

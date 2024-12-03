@@ -5,13 +5,14 @@ import pandas as pd
 import regex as re
 import numpy as np
 import plotly.figure_factory as ff
+
+
 st.title('Explore Jobs and Salaries')
 st.write('This page analyzes data science job listings and extracts jobs and salaries information based \
          on the search parameters you enter. To begin enter a list of languages and or qualifications \
          in the search box. Make sure to have a space separation between entries and hit the \'Enter\'\
          key when done.')
 user_input = st.text_input("Languages and/or qualifications:")
-loading_message_placeholder = st.empty()
 user_selected_langs = []
 if user_input:
     # using spinner while loading data
@@ -238,7 +239,6 @@ if user_input:
         
     # ---------------------------------------------  Plotting and Analysis section
         st.header('Plotting Based on Your Selection:')
-       # loading_message_placeholder.text('Creating plots....\nPlease wait.')
         
         data = cleaned_data
 
@@ -364,18 +364,12 @@ if user_input:
                     st.write('Having experience in one or more programming languages and being familiar with some technologies is a big factor in getting a job, which can also affect the salary range. Use the following plot to find the average salary per location based on the qualifications listed above the plot. Check/uncheck any of the qualifications to see the salary ranges.')
                     st.plotly_chart(fig2, key="salary_plot")
     def plot_correlation_heatmap(data):
-        # Read the data from the uploaded file
-        #data = pd.read_csv(file)
-        
-        # Remove the unnamed column (assuming it's the first column)
+        # Remove the unnamed column
         data = data.loc[:, ~data.columns.str.contains('^Unnamed')]
         data = data.drop(columns=['Average Salary'])
         # Select only numeric columns for correlation
         numeric_data = data.select_dtypes(include=['float64', 'int64'])
-        
-        # Compute the correlation matrix
         correlation_matrix = numeric_data.corr()
-        
         # Flip the order of the columns and rows
         correlation_matrix = correlation_matrix[::-1].reset_index().set_index('index')
         
@@ -387,16 +381,14 @@ if user_input:
             annotation_text=correlation_matrix.round(2).values,
             colorscale='Viridis'
         )
-        
-        # Update layout for better visualization
         fig.update_layout(
             title='Correlation Matrix',
             height=600,
             width=800
         )
-        
-        # Display the heatmap in Streamlit
         st.plotly_chart(fig)
+
+
     st.subheader('Relationship Between Salary and Qualifications')
     st.write('While experience level plays a role in the salary range, there are other factors that \
     may affect that. Moreover, some jobs may ask for more than one technology/qualification. The question \
@@ -404,12 +396,14 @@ if user_input:
     For example, is there a correlation between Python and SQL? which helps you answer the following question \
     I\'m very experienced in Python, do I need to learn SQL? To answer such questions, let\'s look at the following \
     plot that shows the correlation between different features of the data.')
+
     with st.spinner('Generating correlation heatmap, please wait...'):
         plot_correlation_heatmap(data)
 else:
-    st.write("")
-loading_message_placeholder.text('')
-#st.image("Images/ corr_matrix.png", caption="Correlation Matrix")
+    st.write("Looking at the correlation heatmap above helps indetermining if there's any correlation \
+             between any of the searched terms. This will help understand the relationship between the terms \
+             and/or programming languages.")
+
 #st.write("When we look at the plot above we can answer the question we asked earlier. As we can see there is \
 #a positive correlation between Python and SQL which tells us that there's a good percentage of jobs that require\
 # both.")

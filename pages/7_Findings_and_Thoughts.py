@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+
+# Proof read the paragraphs
 st.title("Findings and Thoughts")
 st.write("In this page, we will diacuss what we did with the dataand what we \
          found so far. We will aslo discuss what we think about the data at this\
