@@ -6,7 +6,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 # Proof read the paragraphs
-
+# Correlation heatmap shows a white background on black theme  --  need to fix this
 # Loading datasets
 df = pd.read_csv('pages/Popularity of Programming Languages from 2004 to 2024.csv')
 languages_gh_wiki = pd.read_csv('pages/languages_gitbub_wikipedia.csv')
