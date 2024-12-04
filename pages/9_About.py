@@ -15,6 +15,6 @@ st.subheader('Version')
 st.write('Since you see this part, then the appliation is not yet complete as this is the first version \
          of the application. The application will be improved and more featuress will be added soon.')
 st.subheader('Application Code')
-st.markdown("The code for this application is available [here](https://github.com/Husainz06/job_data.git).\
+st.markdown("The code for this application is available [here](https://github.com/Husainz06/final_project.git).\
              The link includes all the code, datasets, and images used for this application along with a \
             'Read Me' file that explains the organization of the files.")

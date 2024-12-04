@@ -7,7 +7,7 @@ from nltk.probability import FreqDist
 import seaborn as sns
 import os
 import streamlit as st
-
+# Proof read the paragraphs
 
 # Downloading necessary NLTK resources if they are not already downloaded
 nltk.download('punkt', quiet=True)
@@ -183,14 +183,14 @@ def plot_keyword_ngrams(data, keywords, ngram_type):
 
 # Streamlit user interface
 st.title('Keyword N-gram Analysis for Job Summaries')
-st.write('This page uses NLTK (Natural Language Toolkit) which is is a suite of libraries \
+st.write('This page uses NLTK (Natural Language Toolkit) which is a suite of libraries \
          and programs for symbolic and statistical natural language processing (NLP) for English\
          This toolkit supports classification, tokenization, stemming, tagging, parsing, and \
          semantic reasoning functionalities. The purpose of using it here is to extract and plot \
          n-grams (an n-long word sequence) which help give more insight about the data. This helps \
          us understand the relationships between terms and the context in which these terms appear.')
 # Getting user input for keywords
-user_input = st.text_input("Enter keywords (space-separated). Hit enter when done!")
+user_input = st.text_input("Enter keywords (space-separated). Hit 'Enter' when done!")
 
 # Dropdown menu to select between n-grams
 ngram_type = st.selectbox("Select N-gram type", ['Bigrams', 'Trigrams'])
@@ -198,7 +198,8 @@ ngram_type = st.selectbox("Select N-gram type", ['Bigrams', 'Trigrams'])
 if user_input:
     # Splitting  user input into keywords
     keywords = user_input.strip().split()
-    with st.spinner(f'Loading/creating {ngram_type}s.... Please wait'):
+    with st.spinner(f'Loading/creating {ngram_type}.... Please wait'):
         plot_keyword_ngrams(data, keywords, ngram_type)
 
     # maybe add more text here as an analysis part?
+    st.write("More text about n-grams")

@@ -16,9 +16,10 @@ st.subheader("Slow Bigram Processing")
 st.write("When trying to extract bigrams and trigrams, we needed to tokenize all the job descriptions, \
          which was taking a very long time as the dataset is not small. To solve this problem, we created \
          some files to store all tokens and to store n-grams as they get created to avoid having to \
-         recreate tokens and tokens and n-grams everytime the user searches for them. ")
+         recreate tokens and tokens and n-grams every time the user searches for them. ")
 st.subheader("Cluttered Figures")
-st.write("Some figuress get cluttered when the user is searching for multiple terms. This makes the plots \
+st.write("Some figures get cluttered when the user is searching for multiple terms. This makes the plots \
          hard to read. To resolve this, we implemented dynamic figure resizing based on the number of \
          components that are going to be on the plot. This number is determined by the number of keywords \
          the user enters.")
+

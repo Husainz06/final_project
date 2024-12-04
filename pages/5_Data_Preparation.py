@@ -10,15 +10,15 @@ st.subheader("Job Location")
 st.write('One of the first columns that needed to be cleaned was the location columns as the\
          data in the column was not consistent. Some postings had state name, others had city, State\
          format and other just say \'United States\'. We needed to make sure to get the state \
-         appreviations from each of those postings to help in the analysis and visualization down\
+         abbreviations from each of those postings to help in the analysis and visualization down\
           the line. ')
-st.write("To accomplish this, we used a dictionary conatining state names and appreviations\
+st.write("To accomplish this, we used a dictionary containing state names and abbreviations\
           and wrote the code to match them and put them in a list to be used in the output\
           dataset.")
 st.image('Images/edcode_states.png', caption = 'State Appreviation Encoding')
 
 st.subheader("Job Salary")
-st.write('Gettig the job salary was one of the most challenging parts of the data cleaning. This\
+st.write('Getting the job salary was one of the most challenging parts of the data cleaning. This\
           is because of many issues. First, the salary information can sometimes be found in the\
           salary column as a single value e.g. \$75,000. Other times it is a range e.g. \$70,000 - \$80,000\
          or \$70,000 to \$80,000. Sometimes it is not an annual rate but an hourly rate. The second issue is that\
@@ -38,12 +38,13 @@ st.image('Images/merge_sals.png', caption = 'Merging Salaries')
 
 st.subheader("Languages  and Qualifications")
 st.write("To make it easier to analyze and use the data down the line, we decided to perform binary encoding on the \
-          Langauges and qualifications. The idea here is to pass the required languages and qualifications as an array\
-          and use that array to first look these up in the job descirption, and second use them as column names for the\
+          Languages and qualifications. The idea here is to pass the required languages and qualifications as an array\
+          and use that array to first look these up in the job description, and second use them as column names for the\
           generated dataset. Doing this ensures that we can dynamically create new datasets based on whatever the user\
          searches when we implement a search functionality.")
 st.image('Images/get_langs.png', caption = 'Extracting and Encoding Languages and Qualifications')
 
 st.write('The results from calling each of the above function is then combined into one dataset. Some results needed\
-          further processing before adding them into the datase. For a more detailed code, look at \'data_cleaning_encoding.py\'\
+          further processing before adding them into the dataset. For a more detailed code, look at \'data_cleaning_encoding.py\'\
           in the application\'s GitHub repo.')
+

@@ -5,11 +5,13 @@ import pandas as pd
 import regex as re
 import numpy as np
 import plotly.figure_factory as ff
-
+# Proof read the paragraphs
 
 st.title('Explore Jobs and Salaries')
 st.write('This page analyzes data science job listings and extracts jobs and salaries information based \
-         on the search parameters you enter. To begin enter a list of languages and or qualifications \
+         on the search parameters you enter. When a job listing contains any of the entered qualifications \
+         It will be displayed. This means, the more qualifications you enter, the more jobs that will be added \
+         to the analysis and therefore to the plots. To begin, enter a list of languages and or qualifications \
          in the search box. Make sure to have a space separation between entries and hit the \'Enter\'\
          key when done.')
 user_input = st.text_input("Languages and/or qualifications:")
@@ -248,7 +250,7 @@ if user_input:
             st.write("Sorry! The language(s) you entered were not found.\n Please try another list!")
         else:
             st.subheader('Salary vs Location Visualization')
-            st.write('The following plot shows the salary ranges and distributions for different jobs accross the states.\
+            st.write('The following plot shows the salary ranges and distributions for different jobs across the states.\
             You can hover over a dot to show job titles and salary information.')
             # Create a scatter plot for salary vs location
             with st.spinner('Creating plots, please wait...'):    
@@ -388,7 +390,6 @@ if user_input:
         )
         st.plotly_chart(fig)
 
-
     st.subheader('Relationship Between Salary and Qualifications')
     st.write('While experience level plays a role in the salary range, there are other factors that \
     may affect that. Moreover, some jobs may ask for more than one technology/qualification. The question \
@@ -400,10 +401,10 @@ if user_input:
     with st.spinner('Generating correlation heatmap, please wait...'):
         plot_correlation_heatmap(data)
 else:
-    st.write("Looking at the correlation heatmap above helps indetermining if there's any correlation \
+    st.write("Looking at the correlation heatmap above helps in determining if there's any correlation \
              between any of the searched terms. This will help understand the relationship between the terms \
              and/or programming languages.")
 
-#st.write("When we look at the plot above we can answer the question we asked earlier. As we can see there is \
-#a positive correlation between Python and SQL which tells us that there's a good percentage of jobs that require\
-# both.")
+
+
+

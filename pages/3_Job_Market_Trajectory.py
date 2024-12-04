@@ -51,9 +51,10 @@ st.write("Since we do not have enough job posting data to allow predicting the j
 plt.title("Correlation Heatmap")
 st.write("We can see from the heatmap above that there are many features that strongly correlate with the\
           number of available jobs such as the number of GitHub repositories, the number of a language's \
-         Wkipedia page visits, the number of backlinks, the number of available books, and the number of user. \
+         Wikipedia page visits, the number of backlinks, the number of available books, and the number of users. \
          This tells us that in general the languages popularity strongly influences the number of available jobs.")
 # Correlation heatmap
+
 fig, ax = plt.subplots(figsize=(10, 8))
 sns.heatmap(corr_matrix, annot=True, fmt='.2f', linewidths=0.5, cmap='viridis', ax=ax)
 st.pyplot(fig)
@@ -62,9 +63,10 @@ st.subheader("Forecasting the Job Market")
 st.write("As we can see from the heatmap above, there's a strong correlation between a language's popularity and the number of available jobs. \
          We have a dataset that shows contains programming languages' popularity between 2004 and 2024.\
           Therefore, we can use that to forecast programming languages' trajectory which will help us understand \
-         where the job market might be headed. Use the interactive plot below to checkout the \
+         where the job market might be headed. Use the interactive plot below to check out the \
          trajectories of some of the most popular programming languages based on Google programming language\
          tutorial searches.")
+
 
 # Dropdown menu to select a language
 language = st.selectbox("Select a programming language", options=languages, index=languages.index('Python'))
