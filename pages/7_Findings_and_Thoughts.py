@@ -180,4 +180,17 @@ To resolve this uncertainty and improve the accuracy of predictions, it would be
          demand, technological advances, or industry-specific usage could provide a more complete picture 
          of the future job market trends.
 """)
+st.header("Next Steps for Enhancing the Application")
+
+st.write("""
+As we continue to develop and refine this application, several key areas for improvement and future exploration have emerged.
+
+**1. Explore Additional Imputation Techniques:**  
+We plan to experiment with different imputation techniques to assess whether we can achieve more accurate and reliable results. By experimenting with various methods, we aim to further enhance the quality of our data and improve the overall performance of the application.
+
+**2. Expand Job Postings Dataset for Better Forecasting:**  
+Increasing the volume of job listings is crucial for improving the accuracy of our forecasting. While the current job postings data has provided valuable insights, expanding the dataset will allow us to incorporate a broader range of variables, leading to more robust and precise predictions. We will focus on gathering more job postings and explore the possibility of integrating data from multiple sources. This approach will help us offer more comprehensive insights by incorporating data from various platforms.
+
+These next steps will play a pivotal role in continuously improving the application's capabilities, ensuring it remains a valuable tool for forecasting and analyzing the job market.
+""")
 
