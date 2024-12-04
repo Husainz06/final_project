@@ -148,4 +148,60 @@ st.write("As can be seen from the above trajectory plot, there are three predict
          a polynomial model, an exponential model, and a logistic model. The reason for \
          keeping all three models to show the trajectory is that for some languages, different \
          models seem to fit the data better. The user will need to make an informed decision based \
-         on the language and which model fits its trajectory the best.")
+         on the language and which model fits its trajectory the best. To get more information about the \
+         models used here, please read the sections below.")
+st.subheader("1. Polynomial Model")
+
+st.write("""
+A **polynomial model** is a type of mathematical model that tries to describe a trend in data by using powers of the input variable (like time). Imagine you're trying to predict something over time, and you notice that the change doesn't follow a straight line but might have curves. This is where the polynomial model comes in handy.
+
+The general form of the polynomial equation looks like this:
+
+**y = aₙxⁿ + aₙ₋₁xⁿ⁻¹ + ... + a₁x + a₀**
+
+Here, **y** is what you're predicting (like popularity), and **x** is time. The terms with **x** raised to different powers allow the model to capture the changes in data that go up and down in a more flexible way.
+
+### When is it used?
+Polynomial models are often used when the data shows a curving or bending pattern. For example, when the growth of popularity seems to speed up or slow down as time goes on, rather than following a straight line.
+
+### Why is it used?
+This model is useful because it can capture more complex patterns, especially when the trend in data isn’t linear (straight-line). It gives you a better fit when your data follows curves rather than just increases or decreases at a constant rate.
+""")
+
+# Exponential Model Description
+st.subheader("2. Exponential Model")
+
+st.write("""
+The **exponential model** is used to describe situations where growth or decline happens at a constant rate, but the effect grows or shrinks exponentially over time. In simpler terms, this model assumes that something grows faster and faster (or shrinks slower and slower) over time.
+
+The general form of the exponential model is:
+
+**y = a * e^(bx)**
+
+Here, **y** is the popularity you're forecasting, **x** is time, **a** is the starting value, and **e** is a constant approximately equal to 2.718. The term **bx** determines how quickly the popularity grows (if **b** is positive) or decays (if **b** is negative).
+
+### When is it used?
+Exponential models are often used for predicting growth or decay in situations like population growth, viral trends, or the spread of ideas—things that start slow but quickly gain momentum.
+
+### Why is it used?
+This model is great when things start growing at a slow pace but then explode into rapid growth. It's commonly used in cases where the rate of growth increases over time, such as social media popularity or viral marketing trends.
+""")
+
+# Logistic Model Description
+st.subheader("3. Logistic Model")
+
+st.write("""
+The **logistic model** is a little different from the other two because it represents growth that starts off fast but slows down as it approaches a limit or maximum value. Imagine you're predicting popularity, and at first, it grows rapidly, but over time, it starts to level off because there's a limit to how much popularity it can achieve.
+
+The logistic model can be described by the following equation:
+
+**y = L / (1 + e^(-k(x - x₀)))**
+
+Here, **y** is the predicted popularity, **x** is time, **L** is the maximum value (the limit), **e** is the exponential constant, **k** is the growth rate, and **x₀** is the time when the curve reaches its midpoint.
+
+### When is it used?
+The logistic model is useful when there are clear limits to growth. For example, when a trend or product can only become so popular before reaching a plateau. It's often used in scenarios like population studies, product adoption, or the spread of diseases, where growth is rapid at first but slows down as it approaches a maximum.
+
+### Why is it used?
+This model is perfect for situations where growth isn't unlimited. It captures the idea that things can grow fast at the start but eventually slow down as they reach a natural limit, which is very realistic for many real-world situations.
+""")

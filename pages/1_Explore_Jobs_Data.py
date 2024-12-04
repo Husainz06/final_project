@@ -6,7 +6,8 @@ import regex as re
 import numpy as np
 import plotly.figure_factory as ff
 # Proof read the paragraphs
-
+def end_page():
+    st.stop()
 st.title('Explore Jobs and Salaries')
 st.write('This page analyzes data science job listings and extracts jobs and salaries information based \
          on the search parameters you enter. When a job listing contains any of the entered qualifications \
@@ -246,125 +247,127 @@ if user_input:
 
         data = data[data[lang_qual].ne(0).any(axis=1)]
         st.write("Number of jobs found:",len(data))
-        if(len(data)==0):
-            st.write("Sorry! The language(s) you entered were not found.\n Please try another list!")
-        else:
-            st.subheader('Salary vs Location Visualization')
-            st.write('The following plot shows the salary ranges and distributions for different jobs across the states.\
-            You can hover over a dot to show job titles and salary information.')
-            # Create a scatter plot for salary vs location
-            with st.spinner('Creating plots, please wait...'):    
-                #with st.spinner('Creating plot, please wait...'):
-                fig = px.scatter(
-                    data,
-                    x='Location',
-                    y='Salary From',  # Default to showing 'Salary From'
-                    color='Location',  # Color points by location
-                    title='Salary vs Location',
-                    height=600,
-                )
+    if(len(data)==0):
+        st.write("Sorry! The language(s) you entered were not found.\n Please try another list!")
+        # call end_page()
+        end_page()
+    else:
+        st.subheader('Salary vs Location Visualization')
+        st.write('The following plot shows the salary ranges and distributions for different jobs across the states.\
+        You can hover over a dot to show job titles and salary information.')
+        # Create a scatter plot for salary vs location
+        with st.spinner('Creating plots, please wait...'):    
+            #with st.spinner('Creating plot, please wait...'):
+            fig = px.scatter(
+                data,
+                x='Location',
+                y='Salary From',  # Default to showing 'Salary From'
+                color='Location',  # Color points by location
+                title='Salary vs Location',
+                height=600,
+            )
 
-                # Update hover information to format salaries with a dollar sign
-                fig.update_traces(
-                    hovertemplate=(
-                        'Job Title: %{hovertext}<br>' +
-                        'Salary From: $%{y:,.0f}<br>' +  # Added dollar sign here
-                        'Salary To: $%{customdata[0]:,.0f}<br>' +  # Added dollar sign here
-                        '<extra></extra>'
-                    ),
-                    hovertext=data['Job Title'],
-                    customdata=data[['Salary To']].values
-                )
-                # Update layout for better visibility
-                fig.update_layout(
-                    xaxis_tickangle=-45,
-                    xaxis=dict(showticklabels=False)  # Remove ticks on the x-axis
-                )
+            # Update hover information to format salaries with a dollar sign
+            fig.update_traces(
+                hovertemplate=(
+                    'Job Title: %{hovertext}<br>' +
+                    'Salary From: $%{y:,.0f}<br>' +  # Added dollar sign here
+                    'Salary To: $%{customdata[0]:,.0f}<br>' +  # Added dollar sign here
+                    '<extra></extra>'
+                ),
+                hovertext=data['Job Title'],
+                customdata=data[['Salary To']].values
+            )
+            # Update layout for better visibility
+            fig.update_layout(
+                xaxis_tickangle=-45,
+                xaxis=dict(showticklabels=False)  # Remove ticks on the x-axis
+            )
 
-                st.plotly_chart(fig)
-                # Fill NaN values in salary columns with 0 for calculations
-                data['Salary From'] = data['Salary From'].fillna(0)
-                data['Salary To'] = data['Salary To'].fillna(0)
+            st.plotly_chart(fig)
+            # Fill NaN values in salary columns with 0 for calculations
+            data['Salary From'] = data['Salary From'].fillna(0)
+            data['Salary To'] = data['Salary To'].fillna(0)
 
-                # Calculate average salary
-                data['Average Salary'] = (data['Salary From'] + data['Salary To']) / 2
+            # Calculate average salary
+            data['Average Salary'] = (data['Salary From'] + data['Salary To']) / 2
 
-                # Plotting count and average salary based on user selection
-                st.subheader('Job Counts and Average Salaries per Location')
-                st.write('The location seems to affect the number of jobs and the average salary. To check this out, try selecting from the following menu:')
+            # Plotting count and average salary based on user selection
+            st.subheader('Job Counts and Average Salaries per Location')
+            st.write('The location seems to affect the number of jobs and the average salary. To check this out, try selecting from the following menu:')
 
-                # Create a container for the checkboxes
-                with st.container():
-                    qualifications = user_selected_langs
-                    
-                    # Create horizontal checkboxes
-                    cols = st.columns(len(qualifications))
-                    selected_qualifications = {}
-                    
-                    for i, qual in enumerate(qualifications):
-                        # Set a unique key for each checkbox
-                        selected_qualifications[qual] = cols[i].checkbox(qual, value=True, key=f"{qual}_{i}")
+            # Create a container for the checkboxes
+            with st.container():
+                qualifications = user_selected_langs
+                
+                # Create horizontal checkboxes
+                cols = st.columns(len(qualifications))
+                selected_qualifications = {}
+                
+                for i, qual in enumerate(qualifications):
+                    # Set a unique key for each checkbox
+                    selected_qualifications[qual] = cols[i].checkbox(qual, value=True, key=f"{qual}_{i}")
 
-                # Filter data based on selected qualifications
-                filtered_data = data.copy()  # Replace 'data' with your actual dataframe
-                for qual, selected in selected_qualifications.items():
-                    if not selected:
-                        filtered_data = filtered_data[filtered_data[qual] == 0]
+            # Filter data based on selected qualifications
+            filtered_data = data.copy()  # Replace 'data' with your actual dataframe
+            for qual, selected in selected_qualifications.items():
+                if not selected:
+                    filtered_data = filtered_data[filtered_data[qual] == 0]
 
-                # Group by location and calculate the average salary
-                average_salary_by_location = filtered_data.groupby('Location')['Average Salary'].mean().reset_index()
+            # Group by location and calculate the average salary
+            average_salary_by_location = filtered_data.groupby('Location')['Average Salary'].mean().reset_index()
 
-                # Group by location and calculate the job count
-                job_counts = filtered_data.groupby('Location').size().reset_index(name='Job Count')
+            # Group by location and calculate the job count
+            job_counts = filtered_data.groupby('Location').size().reset_index(name='Job Count')
 
-                # Create Plotly bar charts inside the container where filtering occurs
-                # Create the Job Count plot
-                fig1 = px.bar(
-                    job_counts,
-                    x='Location',
-                    y='Job Count',
-                    color='Location',  # Color by location
-                    title='Count of Jobs by Location Based on Qualifications',
-                    labels={'Job Count': 'Job Count', 'Location': 'Location'},
-                )
+            # Create Plotly bar charts inside the container where filtering occurs
+            # Create the Job Count plot
+            fig1 = px.bar(
+                job_counts,
+                x='Location',
+                y='Job Count',
+                color='Location',  # Color by location
+                title='Count of Jobs by Location Based on Qualifications',
+                labels={'Job Count': 'Job Count', 'Location': 'Location'},
+            )
 
-                # Update layout for better visibility for Job Count plot
-                fig1.update_layout(
-                    xaxis_tickangle=-45,
-                    xaxis=dict(showticklabels=False)  # Remove ticks on the x-axis
-                )
+            # Update layout for better visibility for Job Count plot
+            fig1.update_layout(
+                xaxis_tickangle=-45,
+                xaxis=dict(showticklabels=False)  # Remove ticks on the x-axis
+            )
 
-                # Create the Average Salary plot
-                fig2 = px.bar(
-                    average_salary_by_location,
-                    x='Location',
-                    y='Average Salary',
-                    color='Location',  # Color by location
-                    title='Average Salary per Location',
-                    labels={'Average Salary': 'Average Salary ($)', 'Location': 'Location'},
-                )
+            # Create the Average Salary plot
+            fig2 = px.bar(
+                average_salary_by_location,
+                x='Location',
+                y='Average Salary',
+                color='Location',  # Color by location
+                title='Average Salary per Location',
+                labels={'Average Salary': 'Average Salary ($)', 'Location': 'Location'},
+            )
 
-                # Update layout for better visibility for Average Salary plot
-                fig2.update_layout(
-                    xaxis_tickangle=-45,
-                    xaxis=dict(showticklabels=False)  # Remove ticks on the x-axis
-                )
+            # Update layout for better visibility for Average Salary plot
+            fig2.update_layout(
+                xaxis_tickangle=-45,
+                xaxis=dict(showticklabels=False)  # Remove ticks on the x-axis
+            )
 
-                # Streamlit dropdown to select between plots
-                option = st.selectbox(
-                    'Select a plot to display:',
-                    ('Job Count by Location', 'Average Salary by Location')
-                )
+            # Streamlit dropdown to select between plots
+            option = st.selectbox(
+                'Select a plot to display:',
+                ('Job Count by Location', 'Average Salary by Location')
+            )
 
-                # Display the selected plot
-                if option == 'Job Count by Location':
-                    st.subheader('Job Counts Per Location')
-                    st.write('Certain locations may have different industry requirements and therefore may have different qualification requirements. The following plot shows the job count per location based on qualifications. You can check/uncheck qualifications to see the job counts.')
-                    st.plotly_chart(fig1, key="job_count_plot")
-                else:
-                    st.subheader('Average Salary Per Location - Qualification Based')
-                    st.write('Having experience in one or more programming languages and being familiar with some technologies is a big factor in getting a job, which can also affect the salary range. Use the following plot to find the average salary per location based on the qualifications listed above the plot. Check/uncheck any of the qualifications to see the salary ranges.')
-                    st.plotly_chart(fig2, key="salary_plot")
+            # Display the selected plot
+            if option == 'Job Count by Location':
+                st.subheader('Job Counts Per Location')
+                st.write('Certain locations may have different industry requirements and therefore may have different qualification requirements. The following plot shows the job count per location based on qualifications. You can check/uncheck qualifications to see the job counts.')
+                st.plotly_chart(fig1, key="job_count_plot")
+            else:
+                st.subheader('Average Salary Per Location - Qualification Based')
+                st.write('Having experience in one or more programming languages and being familiar with some technologies is a big factor in getting a job, which can also affect the salary range. Use the following plot to find the average salary per location based on the qualifications listed above the plot. Check/uncheck any of the qualifications to see the salary ranges.')
+                st.plotly_chart(fig2, key="salary_plot")
     def plot_correlation_heatmap(data):
         # Remove the unnamed column
         data = data.loc[:, ~data.columns.str.contains('^Unnamed')]

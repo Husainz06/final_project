@@ -45,6 +45,6 @@ st.write("To make it easier to analyze and use the data down the line, we decide
 st.image('Images/get_langs.png', caption = 'Extracting and Encoding Languages and Qualifications')
 
 st.write('The results from calling each of the above function is then combined into one dataset. Some results needed\
-          further processing before adding them into the dataset. For a more detailed code, look at \'data_cleaning_encoding.py\'\
-          in the application\'s GitHub repo.')
+          further processing before adding them into the dataset. These steps are used to clean and create \
+         datasets based on the user\'s input when exploring jobs.')
 

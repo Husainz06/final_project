@@ -12,8 +12,8 @@ st.write("The motivation of this application is my passion of programming and da
          the scope of a coursework. This application is intended to help future or even data scientist \
          in making a decision on what technologies or qualifications they may need to land a good job.")
 st.subheader('Version')
-st.write('Since you see this part, then the appliation is not yet complete as this is the first version \
-         of the application. The application will be improved and more featuress will be added soon.')
+st.write('This is the second version of this application. We added more user interaction, NLTK analysis, \
+         forecasting, and some more pages and text to further explain/analyze the datasets we are using.')
 st.subheader('Application Code')
 st.markdown("The code for this application is available [here](https://github.com/Husainz06/final_project.git).\
              The link includes all the code, datasets, and images used for this application along with a \

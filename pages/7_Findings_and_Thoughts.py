@@ -61,7 +61,8 @@ st.write("Trying to make a decision with missing data can be challenging. This m
 st.subheader("Findings")
 st.write('While there\'s still much to explore about this dataset, we will be using some \
          of the figures from the application and some statistical data here to talk \
-         about our findings so far. Let\'s start with the distribution on the salary.')
+         about our findings. For this discussion, we considered Python, Java, SQL, JavaScript, and Linux.\
+          Let\'s start with the distribution on the salary.')
 st.image('Images/salary_dist.png', caption = '')
 st.write('As someone may expect locations with relatively high cost of living have\
           relatively higher salaries and the data in the plot above supports that. \
@@ -74,15 +75,18 @@ st.write('As someone may expect locations with relatively high cost of living ha
          in the figures below.')
 st.image('Images/dist_all.png', caption = 'Job Counts per Location')
 st.image('Images/dist_no_python.png', caption = 'Jobs Counts - Not Requiring Python')
-st.image('Images/dist_no_java.png', caption = 'Jobs Counts - Not Requiring Java')
-st.write('An interesting finding is coming from this plot that really shows how the \
+st.image('Images/sal_all.png', caption = 'Salary Distributions')
+st.image('Images/sal_no_pythin.png', caption = 'Salary Distributions - Not Requiring Python')
+st.write('An interesting insigts are gained from these plots that really shows how the \
          popularity of a language or technology plays a role in the job market. \
          An example of what we can also infer from this plot is when we hear that \
          a language or technology is\'dying\'. While some say that Java for example \
          is dying and others do not agree, the plot above supports the fact that it is \
          actually dying at least from the data science employers\' point of view.\
+         On the other hand, we know that Python is very popular in the data science job\
+         market and we can clearly see the impact of removing it from the analysis on all plots above.\
          A very interesting and surprising finding can be seen from the correlation \
-         heat map below.')
+         heat map below as well.')
 st.image('Images/ corr_matrix.png', caption = 'Correlation Heat Map')
 st.write('Looking at the heatmap above, it is expected to see a correlation between \
          low salary range and high salary range. However, the heatmap helps us answer \
@@ -103,17 +107,77 @@ st.write("While the dataset we had is real data from a real job board, we still 
 st.write("In terms of imputation, we think that there might be a better imputation approach \
          that could utilize other things such as the location and experience level \
          as that may produce a more accurate prediction of the salary information.")
-st.subheader("What's Next")
-st.write("For the next part of this application, we plan to investigate and implement \
-         a better and more accurate way to impute the data. Another feature to be implemented \
-         is allowing the user to type in the qualifications they have or interested in \
-         and do the analysis based on the user's entry. Another feature that we will try to \
-         implement is allowing the user to upload data (if possible) that can be used \
-         in the analysis.")
-st.write("One of the features that we will investigate the possibility of adding is \
-         trying to compare data from different time periods to try to predict the \
-         trajectory of the job market. We also plan on trying to improve the application's \
-         performance as loading some of the plots is slow at this time. Last but not least, we plan on doing more EDA \
-         to see what questions we can answer based on the dataset we have.")
+st.subheader("Insights from N-Grams")
+st.write("Next, let's see what information we can gainfrom analyzing n-grams")
+st.subheader("Analyzing Bigrams")
+st.write("""
+After analyzing the top 5 bigrams for each of the searched keywords, we can gain valuable insights into how different search terms are related. For example, in the data science job market, we observe that **Python** and **SQL** frequently appear together as qualifications. Similarly, we notice a connection between **Java** and **Scala**.
 
+One intriguing finding from the bigram analysis is the relationship between **Python** and **Java**. When examining the top bigrams for **Python**, **Java** does not appear among the top 5. However, when we search for **Java's** bigrams, we see **Python** featured prominently. 
+
+What does this reveal? It suggests that, in the data science job market, **having Python experience does not necessarily require Java experience**, but the reverse is not true—**if you have Java experience, Python skills become a valuable complement**. 
+
+This insight highlights how bigrams can uncover important patterns and relationships within job qualifications, offering a deeper understanding of the market trends and skill demands.
+
+""")
+st.image('Images/bigrams.png', caption = 'Bigrams for the selected keywords')
+st.subheader("Can Trigrams Provide More Insights?")
+
+st.write("Now that we've seen how bigrams can help us understand relationships between skills, \
+         let's explore whether **trigrams**—sequences of three words—can offer even more detailed \
+         insights. Next, we will analyze trigrams to see if they provide additional \
+         value in our job market analysis.")
+
+st.image('Images/trigrams.png', caption = 'Trigrams for the selected keywords')
+
+st.write("""
+Upon examining trigrams, we can see that they provide even deeper insights into the relationships 
+         between job qualifications. For instance, we find that **R** appears in the trigrams related 
+         to **Python**, which suggests a connection between these two skills. This makes sense, as 
+         both **Python** and **R** are heavily used in data analysis, a key component of the data 
+         science job market.
+
+Additionally, trigrams reveal other important relationships. For example, we notice that **Git** is 
+         associated with **SQL**. Since **SQL** is also frequently linked with **Python**, this suggests
+          that, as a **Python developer**, having **Git** experience is highly beneficial, as it plays 
+         an important role in version control and collaborative development.
+
+These trigrams provide more granular insights into the specific skills that are often required 
+         together in the job market, helping to paint a clearer picture of the most sought-after 
+         skill sets in the industry.
+""")
+
+
+st.subheader("Predicting the Job Market's Trends")
+st.write("In this section we will discuss our trajectory prediction for some of the popular programming\
+         languages which in terms predicts the trajectory of data science jobs. First, let's look at \
+         two examples: Pyhton and Java.")
+st.image('Images/python_forecast.png', caption = 'Python\'s Trajectory')
+st.image('Images/java_forecast.png', caption = 'Java\'s Trajectory')
+
+st.write("""
+As we can see from the figures above, we are utilizing three distinct models for forecasting the 
+         job market trends (which are explained in greater detail on the 'Deeper Analysis' page). 
+         The reason for using multiple models is that different models tend to perform better for 
+         specific languages. Some models are more effective at fitting the curve of a language's 
+         historical trend, making them more reliable in predicting future trajectories.
+
+For instance, when analyzing **Java**, the **logistic model** appears to provide the best fit and 
+         prediction of its future trajectory. This suggests that the popularity of Java follows a 
+         pattern where growth initially accelerates and then levels off over time, which is 
+         characteristic of the logistic growth curve.
+
+On the other hand, when examining **Python**, both the **polynomial** and **exponential models** 
+         seem to fit the curve quite well. However, the **logistic model** also provides a good fit 
+         for Python’s trend. This creates some uncertainty in predicting Python’s future trajectory, 
+         as all three models appear to be valid options. In this case, we lean towards the **logistic 
+         model** as the most appropriate fit for Python, though others may find that the **polynomial 
+         model** provides a more intuitive understanding of Python’s growth.
+
+To resolve this uncertainty and improve the accuracy of predictions, it would be ideal to incorporate 
+         additional variables that could influence the trajectory of these programming languages. 
+         Unfortunately, we currently lack access to such data, but integrating factors such as market 
+         demand, technological advances, or industry-specific usage could provide a more complete picture 
+         of the future job market trends.
+""")
 

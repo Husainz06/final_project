@@ -170,7 +170,7 @@ def plot_keyword_ngrams(data, keywords, ngram_type):
 
         plt.xlabel('Frequency')
         plt.ylabel(f'{ngram_type.capitalize()}')
-        plt.title(f'Top 5 {ngram_type.capitalize()}s for Each Keyword')
+        plt.title(f'Top 5 {ngram_type.capitalize()} for Each Keyword')
         # Place the higher numbers in every group on top
         plt.gca().invert_yaxis() 
         plt.legend(title="Keywords")
@@ -183,14 +183,49 @@ def plot_keyword_ngrams(data, keywords, ngram_type):
 
 # Streamlit user interface
 st.title('Keyword N-gram Analysis for Job Summaries')
-st.write('This page uses NLTK (Natural Language Toolkit) which is a suite of libraries \
-         and programs for symbolic and statistical natural language processing (NLP) for English\
-         This toolkit supports classification, tokenization, stemming, tagging, parsing, and \
-         semantic reasoning functionalities. The purpose of using it here is to extract and plot \
-         n-grams (an n-long word sequence) which help give more insight about the data. This helps \
-         us understand the relationships between terms and the context in which these terms appear.')
+#st.header('Bigrams and Trigrams')
+st.write("""On this page, you can dive deeper into the job descriptions and gain more insights by exploring n-grams.
+         more specifically **Bigrams** and **Trigrams**. To get more information bout n-grams, please 
+         read the next paragrpahs or scroll beyound it for analysis.""")
+st.header('N-Grams Explained')
+st.write("""When we talk about bigrams and trigrams, we're referring to **pairs** and **triplets** of words that 
+         often appear together in a sentence or a piece of text.
+
+- **Bigrams** are simply **two consecutive words**. For example, in the sentence "The cat sleeps," 
+         the bigrams would be "The cat" and "cat sleeps."
+  
+- **Trigrams** are **three consecutive words**. So, from the sentence "The cat sleeps on the mat," 
+         the trigrams would be "The cat sleeps," "cat sleeps on," and "sleeps on the," and "on the mat."
+
+These word pairs and triplets are useful because they help us understand how words tend to group 
+         together in language. By analyzing them, we can discover patterns in text, which is helpful 
+         for tasks like text analysis, search engines, or even making predictions about what words might 
+         come next.
+""")
+
+st.subheader("How Are Bigrams and Trigrams Extracted?")
+
+st.write("""
+The process of finding these pairs and triplets of words involves looking at a body of text 
+         and grouping the words that appear together. It's a bit like breaking down a sentence 
+         into smaller, manageable chunks that represent how words typically fit together in a sentence.
+
+In our app, we use a tool called **NLTK** (which is like a helper for working with language). 
+         NLTK helps us automatically look through text and identify which words are grouped together 
+         as bigrams or trigrams. It does this by looking at the words in order, one by one, and pulling 
+         out the ones that are next to each other. This is done after removing common stop words such as
+         "in","the", "for"...etc. For example, if we have the qualification phrase 
+         "Experience in Python, Java, and SQL" the bigrams would be "Experience Python",  
+         "Python Java", and "Java SQL". On the other hand, trigrams would be "Experience Python Java", 
+         and "Python Java SQL"
+
+By breaking up the text this way, we can uncover meaningful insights into how words are related
+          to each other and make search results more relevant based on the keywords you enter.
+""")
+st.header("Explore N-Grams")
+st.write('To further explore the data utilizing n-grams, please search for the terms below:')
 # Getting user input for keywords
-user_input = st.text_input("Enter keywords (space-separated). Hit 'Enter' when done!")
+user_input = st.text_input("Enter keywords (space-separated). Hit 'Enter' when done!").lower()
 
 # Dropdown menu to select between n-grams
 ngram_type = st.selectbox("Select N-gram type", ['Bigrams', 'Trigrams'])
@@ -202,4 +237,4 @@ if user_input:
         plot_keyword_ngrams(data, keywords, ngram_type)
 
     # maybe add more text here as an analysis part?
-    st.write("More text about n-grams")
+    st.write("")
