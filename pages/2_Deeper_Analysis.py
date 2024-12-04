@@ -185,8 +185,8 @@ def plot_keyword_ngrams(data, keywords, ngram_type):
 st.title('Keyword N-gram Analysis for Job Summaries')
 #st.header('Bigrams and Trigrams')
 st.write("""On this page, you can dive deeper into the job descriptions and gain more insights by exploring n-grams.
-         more specifically **Bigrams** and **Trigrams**. To get more information bout n-grams, please 
-         read the next paragrpahs or scroll beyound it for analysis.""")
+         more specifically **Bigrams** and **Trigrams**. \n\n **To get more information bout n-grams, please 
+         read the next paragrpahs or scroll beyound them for analysis.**""")
 st.header('N-Grams Explained')
 st.write("""When we talk about bigrams and trigrams, we're referring to **pairs** and **triplets** of words that 
          often appear together in a sentence or a piece of text.
