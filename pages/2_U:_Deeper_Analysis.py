@@ -177,8 +177,8 @@ def plot_keyword_ngrams(data, keywords, ngram_type):
 
         # Show keywors in the missing list
         if missing_keywords:
-            st.write(f"Keywords not found: {', '.join(missing_keywords)}\n \
-                     Plotting the rest of the keywords.")
+            st.write(f"Keywords not found: {', '.join(missing_keywords)}.")
+            st.write("Plotting the rest of the keywords.")
         st.pyplot(plt)
 
 # Streamlit user interface
