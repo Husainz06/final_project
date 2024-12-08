@@ -20,4 +20,14 @@ st.write("In this application, we will try to help you decide whether you need t
          we will be using real job posting data and analyze the data to get an idea of the job market requirements\
         , employers, needed qualifications, salaries ...etc. Checkout \'Explore Jobs Data\' tab for more info. \
          To get more information about the data used in this application, checkout the 'About Data' tab.")
-st.write("")
+st.subheader("Application Sections")
+st.write("""There are multiple sections of this applications. Some are aimed towards the user and others twoards data scientists.
+         Each page will have a prefix to denote a section/part of the application. Below is an explanation of these prefixes:
+- U: User pages.
+    - These pages are aimed towards an application user and will contain visualizations and user interaction items such as
+         inputs, menus and interactive plots.
+- DS: Data Scientists Pages.
+    - These pages will explain the data science concepts used such as data pre-processing, imputation ...etc.
+    - These will also include data analysis, results, thoughts, and conclusions about the data.         
+- I: Information Pages.
+    - These pages will contain general progect information. """)

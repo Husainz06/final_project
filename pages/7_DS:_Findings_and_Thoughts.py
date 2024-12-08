@@ -111,13 +111,19 @@ st.subheader("Insights from N-Grams")
 st.write("Next, let's see what information we can gainfrom analyzing n-grams")
 st.subheader("Analyzing Bigrams")
 st.write("""
-After analyzing the top 5 bigrams for each of the searched keywords, we can gain valuable insights into how different search terms are related. For example, in the data science job market, we observe that **Python** and **SQL** frequently appear together as qualifications. Similarly, we notice a connection between **Java** and **Scala**.
+After analyzing the top 5 bigrams for each of the searched keywords, we can gain valuable insights into how different search 
+terms are related. For example, in the data science job market, we observe that **Python** and **SQL** frequently appear together 
+as qualifications. Similarly, we notice a connection between **Java** and **Scala**.
 
-One intriguing finding from the bigram analysis is the relationship between **Python** and **Java**. When examining the top bigrams for **Python**, **Java** does not appear among the top 5. However, when we search for **Java's** bigrams, we see **Python** featured prominently. 
+One intriguing finding from the bigram analysis is the relationship between **Python** and **Java**. When examining the top 
+bigrams for **Python**, **Java** does not appear among the top 5. However, when we search for **Java's** bigrams, we see **Python** 
+featured prominently. 
 
-What does this reveal? It suggests that, in the data science job market, **having Python experience does not necessarily require Java experience**, but the reverse is not true—**if you have Java experience, Python skills become a valuable complement**. 
+What does this reveal? It suggests that, in the data science job market, **having Python experience does not necessarily require Java 
+experience**, but the reverse is not true—**if you have Java experience, Python skills become a valuable complement**. 
 
-This insight highlights how bigrams can uncover important patterns and relationships within job qualifications, offering a deeper understanding of the market trends and skill demands.
+This insight highlights how bigrams can uncover important patterns and relationships within job qualifications, offering a deeper 
+understanding of the market trends and skill demands.
 
 """)
 st.image('Images/bigrams.png', caption = 'Bigrams for the selected keywords')
@@ -180,17 +186,37 @@ To resolve this uncertainty and improve the accuracy of predictions, it would be
          demand, technological advances, or industry-specific usage could provide a more complete picture 
          of the future job market trends.
 """)
+
+st.header("Analysis Conclusion")
+
+st.write("""
+To answer the question, *"Which programming language should I learn to secure a strong data science job?"* we undertook a comprehensive analysis of the job market. Our approach was threefold:
+
+1. **Job Market Analysis**: We began by examining the availability of data science jobs, including factors such as job volume, geographical distribution, and compensation trends.
+2. **Job Description Analysis**: Next, we analyzed job descriptions to identify key qualifications and requirements, specifically focusing on programming languages and their relevance.
+3. **Correlation and Prediction**: Finally, we explored correlations between the number of job postings and other features to predict future trends in the data science job market.
+
+From our analysis, it is clear that predicting the future requirements of the data science job market is challenging. However, certain patterns are emerging, particularly regarding the demand for specific programming languages. By examining the popularity trajectories of these languages, we can gain valuable insights into the future trajectory of the job market. Our findings suggest a strong correlation between language popularity and the number of job postings, indicating that language trends can offer a useful predictor for job market demand.
+
+To improve the accuracy of our predictions, further analysis would be beneficial. Gathering additional job market data over time, and refining our model by incorporating temporal trends, will allow us to make even more accurate forecasts regarding the skills needed for future data science roles.
+""")
 st.header("Next Steps for Enhancing the Application")
 
 st.write("""
 As we continue to develop and refine this application, several key areas for improvement and future exploration have emerged.
 
 **1. Explore Additional Imputation Techniques:**  
-We plan to experiment with different imputation techniques to assess whether we can achieve more accurate and reliable results. By experimenting with various methods, we aim to further enhance the quality of our data and improve the overall performance of the application.
+We plan to experiment with different imputation techniques to assess whether we can achieve more accurate and reliable results.
+ By experimenting with various methods, we aim to further enhance the quality of our data and improve the overall performance of 
+ the application.
 
 **2. Expand Job Postings Dataset for Better Forecasting:**  
-Increasing the volume of job listings is crucial for improving the accuracy of our forecasting. While the current job postings data has provided valuable insights, expanding the dataset will allow us to incorporate a broader range of variables, leading to more robust and precise predictions. We will focus on gathering more job postings and explore the possibility of integrating data from multiple sources. This approach will help us offer more comprehensive insights by incorporating data from various platforms.
+Increasing the volume of job listings is crucial for improving the accuracy of our forecasting. While the current job postings data 
+has provided valuable insights, expanding the dataset will allow us to incorporate a broader range of variables, leading to more 
+robust and precise predictions. We will focus on gathering more job postings and explore the possibility of integrating data from 
+multiple sources. This approach will help us offer more comprehensive insights by incorporating data from various platforms.
 
-These next steps will play a pivotal role in continuously improving the application's capabilities, ensuring it remains a valuable tool for forecasting and analyzing the job market.
+These next steps will play a pivotal role in continuously improving the application's capabilities, ensuring it remains a valuable 
+tool for forecasting and analyzing the job market.
 """)
 
